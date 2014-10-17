@@ -65,6 +65,24 @@ class ScheduleTest < ActiveSupport::TestCase
         )
         assert schedule.collide_to?(@schedule)
       end
+
+      test "start < other.start < finish < other.finish" do
+        schedule = create(
+          :schedule,
+          start_at: @start_at - 1,
+          finish_at: @finish_at - 1
+        )
+        assert schedule.collide_to?(@schedule)
+      end
+
+      test "other.start < start < other.finish < finish" do
+        schedule = create(
+          :schedule,
+          start_at: @start_at + 1,
+          finish_at: @finish_at + 1
+        )
+        assert schedule.collide_to?(@schedule)
+      end
     end
 
     class NotCollideTest < self
