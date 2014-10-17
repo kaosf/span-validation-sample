@@ -8,4 +8,9 @@ class Schedule < ActiveRecord::Base
       errors.add(:finish_at, 'Span is invalid.')
     end
   end
+
+  def collide_to?(other)
+    (start_at <= other.start_at && other.start_at <= finish_at) ||
+    (start_at <= other.finish_at && other.finish_at <= finish_at)
+  end
 end
