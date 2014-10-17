@@ -9,6 +9,15 @@ class Schedule < ActiveRecord::Base
     end
   end
 
+  def span_not_collide_to_others?
+    if new_record?
+      others = Schedule.all
+    else
+      others = Schedule.where('id != ?', id)
+    end
+    others.reduce(false) { |s, i| s || collide_to?(i) }
+  end
+
   def collide_to?(other)
     start_at <= other.finish_at && other.start_at <= finish_at
   end
