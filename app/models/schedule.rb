@@ -1,6 +1,7 @@
 class Schedule < ActiveRecord::Base
   validates_presence_of :title
   validate :valid_span?
+  validate :span_not_collide_to_others?
 
   def valid_span?
     if finish_at <= start_at
@@ -15,7 +16,13 @@ class Schedule < ActiveRecord::Base
     else
       others = Schedule.where('id != ?', id)
     end
-    others.reduce(false) { |s, i| s || collide_to?(i) }
+    others.each do |i|
+      if collide_to?(i)
+        errors.add(:start_at, 'Span collides to another.')
+        errors.add(:finish_at, 'Span collides to another.')
+        break
+      end
+    end
   end
 
   def collide_to?(other)
