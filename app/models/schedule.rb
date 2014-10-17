@@ -10,7 +10,6 @@ class Schedule < ActiveRecord::Base
   end
 
   def collide_to?(other)
-    (start_at <= other.start_at && other.start_at <= finish_at) ||
-    (start_at <= other.finish_at && other.finish_at <= finish_at)
+    start_at <= other.finish_at && other.start_at <= finish_at
   end
 end
