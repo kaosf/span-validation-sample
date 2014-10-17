@@ -104,6 +104,27 @@ class ScheduleTest < ActiveSupport::TestCase
         assert_not schedule.collide_to?(@schedule)
       end
     end
+
+    class CollisionValidation < self
+      test "not collide to any other" do
+        schedule = build(
+          :schedule,
+          start_at: @finish_at + 1,
+          finish_at: @finish_at + 2
+        )
+        assert schedule.valid?
+      end
+
+      test "collide to another" do
+        schedule = build(
+          :schedule,
+          start_at: @finish_at - 1,
+          finish_at: @finish_at + 1
+        )
+        assert_not schedule.valid?
+        assert schedule.errors.include?(:start_at)
+      end
+    end
   end
 
   teardown do
