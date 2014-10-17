@@ -18,22 +18,22 @@ class ScheduleTest < ActiveSupport::TestCase
   class SpanCollisionTest < self
     class CollideTest < self
       test "same" do
-        schedule = create :schedule
+        schedule = build :schedule
         assert schedule.collide_to?(@schedule)
       end
 
       test "start < other.start" do
-        schedule = create :schedule, start_at: @start_at - 1
+        schedule = build :schedule, start_at: @start_at - 1
         assert schedule.collide_to?(@schedule)
       end
 
       test "other.finish < finish" do
-        schedule = create :schedule, finish_at: @finish_at + 1
+        schedule = build :schedule, finish_at: @finish_at + 1
         assert schedule.collide_to?(@schedule)
       end
 
       test "start < other.start and other.finish < finish" do
-        schedule = create(
+        schedule = build(
           :schedule,
           start_at: @start_at - 1,
           finish_at: @finish_at + 1
@@ -42,7 +42,7 @@ class ScheduleTest < ActiveSupport::TestCase
       end
 
       test "other.start < start and other.finish = finish" do
-        schedule = create(
+        schedule = build(
           :schedule,
           start_at: @start_at + 1
         )
@@ -50,7 +50,7 @@ class ScheduleTest < ActiveSupport::TestCase
       end
 
       test "other.start = start and finish < other.finish" do
-        schedule = create(
+        schedule = build(
           :schedule,
           finish_at: @finish_at - 1
         )
@@ -58,7 +58,7 @@ class ScheduleTest < ActiveSupport::TestCase
       end
 
       test "other.start < start and finish < other.finish" do
-        schedule = create(
+        schedule = build(
           :schedule,
           start_at: @start_at + 1,
           finish_at: @finish_at - 1
@@ -67,7 +67,7 @@ class ScheduleTest < ActiveSupport::TestCase
       end
 
       test "start < other.start < finish < other.finish" do
-        schedule = create(
+        schedule = build(
           :schedule,
           start_at: @start_at - 1,
           finish_at: @finish_at - 1
@@ -76,7 +76,7 @@ class ScheduleTest < ActiveSupport::TestCase
       end
 
       test "other.start < start < other.finish < finish" do
-        schedule = create(
+        schedule = build(
           :schedule,
           start_at: @start_at + 1,
           finish_at: @finish_at + 1
@@ -87,7 +87,7 @@ class ScheduleTest < ActiveSupport::TestCase
 
     class NotCollideTest < self
       test "other.finish < start" do
-        schedule = create(
+        schedule = build(
           :schedule,
           start_at: @finish_at + 1,
           finish_at: @finish_at + 2
@@ -96,7 +96,7 @@ class ScheduleTest < ActiveSupport::TestCase
       end
 
       test "finish < other.start" do
-        schedule = create(
+        schedule = build(
           :schedule,
           start_at: @start_at - 2,
           finish_at: @start_at - 1
