@@ -12,6 +12,8 @@ class Schedule < ActiveRecord::Base
     end
   end
 
+  # Check whether this span doesn't collide to other schedules.
+  # @return [Boolean] Whether this doesn't collide to other schedules.
   def span_not_collide_to_others?
     if new_record?
       others = Schedule.all
