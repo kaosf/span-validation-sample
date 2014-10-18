@@ -25,6 +25,10 @@ class Schedule < ActiveRecord::Base
     end
   end
 
+  # Check whether this collides to another
+  # @param [Schedule] other Another schedule record
+  # @return [true] Collide to another schedule
+  # @return [false] NOT collide to another schedule
   def collide_to?(other)
     start_at <= other.finish_at && other.start_at <= finish_at
   end
