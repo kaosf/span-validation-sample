@@ -3,8 +3,8 @@ class Schedule < ActiveRecord::Base
   validate :valid_span?
   validate :span_not_collide_to_others?
 
-  # Check `start_at` and `finish_at` are valid
-  # @return [Boolean] Whether this is valid or not.
+  # Check `start_at` and `finish_at` are valid.
+  # @return [Boolean] Whether this is valid.
   def valid_span?
     if finish_at <= start_at
       errors.add(:start_at, 'Span is invalid.')
@@ -27,9 +27,9 @@ class Schedule < ActiveRecord::Base
     end
   end
 
-  # Check whether this collides to another
+  # Check whether this collides to another.
   # @param [Schedule] another Another schedule record
-  # @return [Boolean] Whether this collides to another schedule
+  # @return [Boolean] Whether this collides to another schedule.
   def collide_to?(another)
     start_at <= another.finish_at && another.start_at <= finish_at
   end
